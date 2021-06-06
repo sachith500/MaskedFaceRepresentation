@@ -19,6 +19,8 @@ def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompet
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
     experiment_models = ["EX1", "CP1", "CP2", "FT1", "FT2", "FT3"]
+    experiment_models = []
+    ensemble_models = ["FT1", "FT2", "FT3"]
     trained_models = {
         "EX1": "./models/EX1.pt", "CP1": "./models/CP1.pt", "CP2": "./models/CP2.pt",
         "FT1": "./models/FT1.pt", "FT2": "./models/FT2.pt", "FT3": "./models/FT3.pt"
@@ -37,6 +39,13 @@ def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompet
         date_time = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         base_saving_path = f"./outputs/{date_time}"
         create_folder(base_saving_path)
+
+        if len(ensemble_models) > 0:
+            ensemble_model_paths = []
+            for model in ensemble_models:
+                ensemble_model_paths.append(trained_models.get(model))
+            experiment_models.append("ENSEMBLE")
+            trained_models["ENSEMBLE"] = ensemble_model_paths
 
         for model in experiment_models:
             model_data = dict()

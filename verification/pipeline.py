@@ -12,8 +12,10 @@ class Pipeline:
 
     def __init__(self, evaluation_list_file, landmarks_file, output_path, model_path=None, dataset_base_folder=None):
         self.evaluation_list_file = evaluation_list_file
-
-        self.model_paths = [model_path]
+        if isinstance(model_path,list):
+            self.model_paths = model_path
+        else:
+            self.model_paths = [model_path]
         self.dataset_base_folder = dataset_base_folder
         self.bbox_dict = dict()
         self.facial_key_points_dict = dict()

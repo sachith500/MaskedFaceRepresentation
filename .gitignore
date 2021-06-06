@@ -234,3 +234,5 @@ Thumbs.db
 
 # profiling data
 .prof
+outputs/*
+experiment_2_results.csv
