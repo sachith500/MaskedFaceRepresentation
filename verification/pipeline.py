@@ -4,9 +4,8 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-from product.build_networks import build_siamese_network_vgg16
-from product.config import *
-from product.model import Siamese
+from verification.config import *
+from verification.model import Siamese
 
 
 class Pipeline:
@@ -36,37 +35,8 @@ class Pipeline:
         model = Siamese(model_path)
         return model
 
-    def build_models_pytorch(self, model_path):
-        '''
-        model, back_bone, distance_network, sister_fc_model = build_siamese_network(None)
-
-        training_percentage = .40
-        back_bone.trainable = True
-        # Fine-tune from this layer onwards
-        fine_tune_at = len(back_bone.layers) - int(len(back_bone.layers) * training_percentage)
-        # Freeze all the layers before the `fine_tune_at` layer
-        for layer in back_bone.layers[:fine_tune_at]:
-            layer.trainable = False
-        for layer in back_bone.layers[fine_tune_at:]:
-            layer.trainable = True
-        model.load_weights(self.model_path)
-        return model
-        '''
-        model = Siamese(model_path)
-        return model
-
     def build_models(self, model_path):
-        model = build_siamese_network_vgg16(fine_tune_percentage=0.70)
-        # training_percentage = .10
-        # model.trainable = True
-        # # Fine-tune from this layer onwards
-        # fine_tune_at = len(model.layers) - int(len(model.layers) * training_percentage)
-        # # Freeze all the layers before the `fine_tune_at` layer
-        # for layer in model.layers[:fine_tune_at]:
-        #     layer.trainable = False
-        # for layer in model.layers[fine_tune_at:]:
-        #     layer.trainable = True
-        model.load_weights(model_path)
+        model = Siamese(model_path)
         return model
 
     def evaluate_images(self, reference_image, reference_bbox, probe_image, probe_bbox, true_label):
@@ -171,7 +141,7 @@ class Pipeline:
         reference_images = self.__get_processed_inference_images(reference)
         probe_images = self.__get_processed_inference_images(probe)
 
-        # self.siamese_model = self.siamese_model.cuda()
+        self.siamese_model = self.siamese_model.cuda()
         predicted_score = self.siamese_model.predict([reference_images, probe_images])
 
         average_score = np.average(predicted_score)
