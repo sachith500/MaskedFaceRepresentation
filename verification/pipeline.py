@@ -5,14 +5,18 @@ import numpy as np
 from tqdm import tqdm
 
 from verification.config import *
-from verification.model import Siamese
+from verification.model import SiameseNetworkWith2048Distance, SiameseNetworkWith512Distance, SiameseNetworkWithSigmoid
+from verification.tensorflow_model import TensorflowSiameseNetworkUsingVgg19, TensorflowSiameseNetworkUsingMobilenet, \
+    TensorflowSiameseNetworkUsingSenet, TensorflowSiameseNetworkUsingVgg16
 
 
 class Pipeline:
 
-    def __init__(self, evaluation_list_file, landmarks_file, output_path, model_path=None, dataset_base_folder=None):
+    def __init__(self, evaluation_list_file, landmarks_file, output_path, model_path=None,
+                 dataset_base_folder=None):
+        self.is_pytorch = False
         self.evaluation_list_file = evaluation_list_file
-        if isinstance(model_path,list):
+        if isinstance(model_path, list):
             self.model_paths = model_path
         else:
             self.model_paths = [model_path]
@@ -30,19 +34,36 @@ class Pipeline:
         else:
             print(f"Landmark file is not accessible. Please check the path {landmarks_file}.")
             exit(0)
-
+        self.siamese_model = None
         self.output_path = output_path
 
-    def build_simple_models(self, model_path):
-        model = Siamese(model_path)
-        return model
+    def build_model(self, model_path, model_type="pytorch_2048"):
+        if model_type == "pytorch_2048":
+            self.is_pytorch = True
+            model = SiameseNetworkWith2048Distance(model_path)
+        elif model_type == "pytorch_512":
+            self.is_pytorch = True
+            model = SiameseNetworkWith512Distance(model_path)
+        elif model_type == "pytorch_sigmoid":
+            self.is_pytorch = True
+            model = SiameseNetworkWithSigmoid(model_path)
+        elif model_type == "tensorflow_vgg19":
+            self.is_pytorch = False
+            model = TensorflowSiameseNetworkUsingVgg19(model_path).build()
+        elif model_type == "tensorflow_mobilenet":
+            self.is_pytorch = False
+            model = TensorflowSiameseNetworkUsingMobilenet(model_path).build()
+        elif model_type == "tensorflow_senet":
+            self.is_pytorch = False
+            model = TensorflowSiameseNetworkUsingSenet(model_path).build()
+        elif model_type == "tensorflow_vgg16":
+            self.is_pytorch = False
+            model = TensorflowSiameseNetworkUsingVgg16(model_path).build()
+        else:
+            self.is_pytorch = True
+            model = SiameseNetworkWith2048Distance(model_path)
 
-    def build_models(self, model_path):
-        model = Siamese(model_path)
         return model
-
-    def evaluate_images(self, reference_image, reference_bbox, probe_image, probe_bbox, true_label):
-        pass
 
     def __image_margin(self, image):
         shape = IMG_SHAPE
@@ -61,12 +82,10 @@ class Pipeline:
         image_shape = image.shape
 
         if image_shape[0] > image_shape[1]:
-            # print((image_shape), (shape[0], int(image_shape[1] * (shape[1] / image_shape[0]))))
             resized_image = cv2.resize(image, (int(image_shape[1] * (shape[1] / image_shape[0])), shape[0]))
         else:
-            # print((image_shape), (int(image_shape[0] * (shape[1] / image_shape[1])), shape[1]))
             resized_image = cv2.resize(image, (shape[0], int(image_shape[0] * (shape[1] / image_shape[1]))))
-        # print(image_shape, resized_image.shape)
+
         return self.__image_margin(resized_image)
 
     def __crop_image(self, image, x1, y1, x2, y2, ratio=1.0):
@@ -114,15 +133,19 @@ class Pipeline:
 
         return np.array(images)
 
-    def process(self):
+    def process(self, model_types):
         print("Processing started.")
         reference_list, probe_list, label_reference_list, label_probe_list = self.read_evaluation_list_file()
         print("Reading evaluation file list is done.")
         print("Evaluation is started.")
+
+        if isinstance(model_types, str):
+            model_types = [model_types]
+
         comparison_scores = None
-        for model_path in self.model_paths:
+        for i, model_path in enumerate(self.model_paths):
             scores = []
-            self.siamese_model = self.build_models(model_path)
+            self.siamese_model = self.build_model(model_path, model_types[i])
             for idx, reference in enumerate(tqdm(reference_list)):
                 probe = probe_list[idx]
                 score = self.inference_images(reference, probe)
@@ -143,7 +166,8 @@ class Pipeline:
         reference_images = self.__get_processed_inference_images(reference)
         probe_images = self.__get_processed_inference_images(probe)
 
-        self.siamese_model = self.siamese_model.cuda()
+        if self.is_pytorch:
+            self.siamese_model = self.siamese_model.cuda()
         predicted_score = self.siamese_model.predict([reference_images, probe_images])
 
         average_score = np.average(predicted_score)

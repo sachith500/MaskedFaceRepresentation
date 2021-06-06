@@ -4,7 +4,7 @@ from keras_vggface.vggface import VGGFace
 from tensorflow.python.keras import *
 from tensorflow.python.keras.layers import *
 
-from recognition.config import IMG_SHAPE
+from verification.config import IMG_SHAPE
 
 
 def square_change(vectors):

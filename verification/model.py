@@ -1,3 +1,4 @@
+import abc
 import os
 
 import torch
@@ -7,14 +8,22 @@ import torchvision.models as models
 from torchvision import transforms
 
 
-class Siamese(nn.Module):
+class SiameseNetwork(nn.Module):
 
-    # Load trained weights (from supervised model)
-    def load_weights_2(self, path):
-        # load from pre-trained, before DistributedDataParallel constructor
-        weightpath = path
-        if os.path.isfile(weightpath):
-            checkpoint = torch.load(weightpath, map_location="cpu")
+    def __init__(self, model_path):
+        super(SiameseNetwork, self).__init__()
+        self.conv = models.__dict__['resnet50'](pretrained=True)
+        self.conv = torch.nn.Sequential(*(list(self.conv.children())[:-1]))
+        self.liner = nn.Sequential(nn.Linear(2048, 512), nn.Sigmoid())
+        self.out = nn.Linear(512, 1)
+
+        self.load_weights(model_path)
+        self.freeze_representation()
+
+    def load_weights(self, path):
+        weight_path = path
+        if os.path.isfile(weight_path):
+            checkpoint = torch.load(weight_path, map_location="cpu")
 
             # rename pre-trained keys
             state_dict = checkpoint
@@ -26,12 +35,10 @@ class Siamese(nn.Module):
                 # delete renamed or unused k
                 del state_dict[k]
 
-            msg = self.load_state_dict(state_dict, strict=False)
-            # assert set(msg.missing_keys) == {"fc.weight", "fc.bias"}
+            self.load_state_dict(state_dict, strict=False)
         else:
-            print("=> no checkpoint found at '{}'".format(weightpath))
+            print("=> no checkpoint found at '{}'".format(weight_path))
 
-    # Modify as needed depending on what needs to be frozen
     def freeze_representation(self):
         # freeze all layers but the last fc
         count = 0
@@ -43,130 +50,102 @@ class Siamese(nn.Module):
         if (count1 < 0.9 * count):
             param.requires_grad = False
 
-    def __init__(self, model_path):
-        super(Siamese, self).__init__()
-        self.conv = models.__dict__['resnet50'](pretrained=True)
-        # self.load_weights()
-        self.conv = torch.nn.Sequential(*(list(self.conv.children())[:-1]))
-        # print((self.conv))
-        self.liner = nn.Sequential(nn.Linear(2048, 512), nn.Sigmoid())
-        self.out = nn.Linear(512, 1)
+    @abc.abstractmethod
+    def forward(self, output1, output2):
+        pass
 
-        self.load_weights_2(model_path)
-        # self.load_weights_2('0.47_transfer_cc_50_model-inter-164001.pt')
-        # Remove to disable freezing pretrained representation
-        self.freeze_representation()
-        # print(self.conv)
+    @abc.abstractmethod
+    def predict(self, images):
+        pass
 
-    def forward_one(self, x):
+    @staticmethod
+    def load_data_to_gpu(images):
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                         std=[0.229, 0.224, 0.225])
+        image_transformation = transforms.Compose([
+            normalize
+        ])
+
+        refs = images[0]
+        probes = images[1]
+
+        refs = torch.from_numpy(refs).transpose(1, 3).transpose(2, 3).float()
+        probes = torch.from_numpy(probes).transpose(1, 3).transpose(2, 3).float()
+
+        for i in range(len(refs)):
+            refs[i] = image_transformation(refs[i])
+
+        for i in range(len(probes)):
+            probes[i] = image_transformation(probes[i])
+
+        refs = refs.cuda()
+        probes = probes.cuda()
+
+        return refs, probes
+
+    def forward_sister_network(self, x):
         x = self.conv(x)
-        # Need to reshape explicitly, since splitting after avgpool of resnet50
         x = x.reshape(x.size(0), -1)
-        # x = x.view(x.size()[0], -1)
-        # x = self.liner(x)
         return x
 
-    def forward(self, output1, output2):
-        output1 = self.forward_one(output1)
-        output2 = self.forward_one(output2)
-        return output1, output2
 
-    def forward_1(self, x1, x2):
-        out1 = self.forward_one(x1)
-        # print(out1.size())
-        out2 = self.forward_one(x2)
+class SiameseNetworkWithSigmoid(SiameseNetwork):
+
+    def __init__(self, model_path):
+        super(SiameseNetworkWithSigmoid, self).__init__(model_path)
+
+    def forward(self, x1, x2):
+        out1 = self.forward_sister_network(x1)
+        out1 = self.liner(out1)
+        out2 = self.forward_sister_network(x2)
+        out2 = self.liner(out2)
+
         dis = torch.abs(out1 - out2)
         out = self.out(dis)
         return torch.sigmoid(out)
-        # return out
-
-    def predict_1(self, images):
-        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                         std=[0.229, 0.224, 0.225])
-
-        test_transforms = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(224),
-            transforms.ToTensor(),
-            normalize,
-        ])
-        test_transforms1 = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(224),
-            transforms.ToTensor(),
-            normalize,
-        ])
-        new_transforms = transforms.Compose([
-            normalize
-        ])
-
-        refs = images[0]
-
-        probes = images[1]
-
-        refs = torch.from_numpy(refs).transpose(1, 3).transpose(2, 3).float()
-        probes = torch.from_numpy(probes).transpose(1, 3).transpose(2, 3).float()
-
-        for i in range(len(probes)):
-            probes[i] = new_transforms(probes[i])
-        probes = probes.cuda()
-        for i in range(len(refs)):
-            refs[i] = new_transforms(refs[i])
-        # refs = test_transforms(refs)
-        refs = refs.cuda()
-        # print(refs.shape)
-        results = []
-        return (self.forward(refs, probes)).detach().cpu().numpy()
 
     def predict(self, images):
-        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                         std=[0.229, 0.224, 0.225])
+        refs, probes = self.load_data_to_gpu(images)
+        output = (self.forward(refs, probes)).detach().cpu().numpy()
 
-        test_transforms = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(224),
-            transforms.ToTensor(),
-            normalize,
-        ])
-        test_transforms1 = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(224),
-            transforms.ToTensor(),
-            normalize,
-        ])
-        new_transforms = transforms.Compose([
-            normalize
-        ])
+        return output
 
-        refs = images[0]
 
-        probes = images[1]
+class SiameseNetworkWith2048Distance(SiameseNetwork):
 
-        refs = torch.from_numpy(refs).transpose(1, 3).transpose(2, 3).float()
-        probes = torch.from_numpy(probes).transpose(1, 3).transpose(2, 3).float()
+    def __init__(self, model_path):
+        super(SiameseNetworkWith2048Distance, self).__init__(model_path)
 
-        for i in range(len(probes)):
-            probes[i] = new_transforms(probes[i])
-        probes = probes.cuda()
-        for i in range(len(refs)):
-            refs[i] = new_transforms(refs[i])
-        # refs = test_transforms(refs)
-        refs = refs.cuda()
-        # print(refs.shape)
+    def forward(self, output1, output2):
+        output1 = self.forward_sister_network(output1)
+        output2 = self.forward_sister_network(output2)
+        return output1, output2
+
+    def predict(self, images):
+        refs, probes = self.load_data_to_gpu(images)
         output1, output2 = self.forward(refs, probes)
         output = F.pairwise_distance(output1, output2).detach().cpu().numpy()
-        # results = (self.forward(refs, probes)).detach().cpu().numpy()
 
-        # commented the below
         output = 1 / (1 + output)
         return output
-        # print(output)
-        # print(1/(1+output))
-        # return (self.forward(refs, probes)).detach().cpu().numpy()
 
 
-# for test
-if __name__ == '__main__':
-    net = Siamese()
-    print(net)
-    print(list(net.parameters()))
+class SiameseNetworkWith512Distance(SiameseNetwork):
+
+    def __init__(self, model_path):
+        super(SiameseNetworkWith512Distance, self).__init__(model_path)
+
+    def forward(self, output1, output2):
+        out1 = self.forward_sister_network(output1)
+        output1 = self.liner(out1)
+        out2 = self.forward_sister_network(output2)
+        output2 = self.liner(out2)
+        return output1, output2
+
+    def predict(self, images):
+        refs, probes = self.load_data_to_gpu(images)
+        output1, output2 = self.forward(refs, probes)
+        output = F.pairwise_distance(output1, output2).detach().cpu().numpy()
+
+        output = 1 / (1 + output)
+        return output

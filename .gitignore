@@ -236,3 +236,5 @@ Thumbs.db
 .prof
 outputs/*
 experiment_2_results.csv
+*.csv
+models/benchmark_1/senet.h5

@@ -12,6 +12,7 @@ def regenerate_results(output_path):
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
     experiment_models = ["CP1", "CP2", "FT1", "FT2", "FT3"]
+
     if os.path.isdir(output_path):
         result_csv = f"{output_path}/experiment_2_results.csv"
     else:

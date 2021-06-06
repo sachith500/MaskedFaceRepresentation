@@ -18,24 +18,25 @@ def create_folder(folder_path):
 def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompetition\\dataset\\evaluation_datasets\\"):
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
-    experiment_models = ["EX1", "CP1", "CP2", "FT1", "FT2", "FT3"]
-    experiment_models = []
+    experiment_models = ["EX1", "EX1.1", "CP1", "CP2", "FT1", "FT2", "FT3"]
+    model_types = ["pytorch_2048", "pytorch_2048", "pytorch_2048", "pytorch_2048", "pytorch_2048", "pytorch_2048",
+                   "pytorch_2048"]
     ensemble_models = ["FT1", "FT2", "FT3"]
+    ensemble_model_types = ["pytorch_2048", "pytorch_2048", "pytorch_2048"]
+
     trained_models = {
-        "EX1": "./models/EX1.pt", "CP1": "./models/CP1.pt", "CP2": "./models/CP2.pt",
+        "EX1": "./models/EX1.pt", "EX1.1": "./models/EX1.1.pt", "CP1": "./models/CP1.pt", "CP2": "./models/CP2.pt",
         "FT1": "./models/FT1.pt", "FT2": "./models/FT2.pt", "FT3": "./models/FT3.pt"
     }
     if os.path.isdir(output_path):
-        result_csv = f"{output_path}/experiment_2_results.csv"
+        result_csv = f"{output_path}/experiment_2._fnmr_0_results.csv"
     else:
         result_csv = output_path
 
     with open(result_csv, 'w', newline='') as file:
         writer = csv.writer(file)
         data_dict = dict()
-        row = [""]
-        row.extend(experiment_models)
-        writer.writerow(row)
+
         date_time = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         base_saving_path = f"./outputs/{date_time}"
         create_folder(base_saving_path)
@@ -46,8 +47,13 @@ def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompet
                 ensemble_model_paths.append(trained_models.get(model))
             experiment_models.append("ENSEMBLE")
             trained_models["ENSEMBLE"] = ensemble_model_paths
+            model_types.append(ensemble_model_types)
 
-        for model in experiment_models:
+        row = [""]
+        row.extend(experiment_models)
+        writer.writerow(row)
+
+        for model_type_i, model in enumerate(experiment_models):
             model_data = dict()
             for dataset in datasets:
                 evaluation_file = f"./data/training_pairs_data/{dataset}/evaluation_{dataset}.txt"
@@ -67,13 +73,13 @@ def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompet
                 dataset_base_folder = f"{base_folder}/{dataset}/"
                 pipeline = Pipeline(input_evaluation_file, landmarks_file, output_file, trained_model,
                                     dataset_base_folder)
-                similarity_score = pipeline.process()
+                similarity_score = pipeline.process(model_types[model_type_i])
                 similarity_score_length = len(similarity_score)
 
                 [fnmr_fmr0, fnmr_fmr100, fnmr_fmr1000, eer] = evaluate(similarity_score,
                                                                        true_labels[:similarity_score_length])
                 row.extend([fnmr_fmr0, fnmr_fmr100, fnmr_fmr1000, eer])
-                model_data[dataset] = eer
+                model_data[dataset] = fnmr_fmr0
 
             data_dict[model] = model_data
 
