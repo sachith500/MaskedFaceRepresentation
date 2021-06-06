@@ -17,7 +17,8 @@ def create_masked_face(input_file_path, output_file_path, mask_type):
                                                          draw_landmarks=False)
         if image_with_mask is None:
             print("Couldn't find a face to apply synthetic mask")
-        cv2.imwrite(output_file_path, image_with_mask)
+        else:
+            cv2.imwrite(output_file_path, image_with_mask)
     else:
         print("Please check your input file path")
 
