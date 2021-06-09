@@ -7,9 +7,11 @@ boto3~=1.16.46
 Pillow~=7.2.0
 sklearn~=0.0
 scikit-learn~=0.23.2
-#torch~=1.7.1+cu101
-#torchvision~=0.8.2+cu101
+torch~=1.7.1+cu101
+torchvision~=0.8.2+cu101
 requests~=2.24.0
 tensorflow-gpu~=2.3.2
 Keras~=2.4.3
 scikit-image
+-i https://files.pythonhosted.org/packages/0e/ce/f8a3cff33ac03a8219768f0694c5d703c8e037e6aba2e865f9bae22ed63c/dlib-19.8.1-cp36-cp36m-win_amd64.whl#sha256=794994fa2c54e7776659fddb148363a5556468a6d5d46be8dad311722d54bfcf
+dlib

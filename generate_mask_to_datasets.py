@@ -49,15 +49,15 @@ if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(prog="Generate masked face dataset",
                                          description='Generate masked face dataset.', )
     arg_parser.add_argument("--base_folder", type=str, default="../dataset")
-    arg_parser.add_argument("--new_database_folder", type=str, default="../new_dataset")
+    arg_parser.add_argument("--new_dataset_folder", type=str, default="../new_dataset")
 
     args = arg_parser.parse_args()
-    if not os.path.isdir(args.new_database_folder):
-        os.mkdir(args.new_database_folder)
+    if not os.path.isdir(args.new_dataset_folder):
+        os.mkdir(args.new_dataset_folder)
 
     datasets = ["celeba", "fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "lfw",
                 "youtube_faces"]
 
     for dataset in datasets:
-        mask_dataset_creator = get_dataset_creator(args.base_folder, args.new_database_folder, dataset)
+        mask_dataset_creator = get_dataset_creator(args.base_folder, args.new_dataset_folder, dataset)
         mask_dataset_creator.generate()

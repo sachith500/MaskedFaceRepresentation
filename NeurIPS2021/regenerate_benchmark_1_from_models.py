@@ -88,7 +88,8 @@ if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(prog="Convert face to synthetic masked face",
                                          description='Convert face to synthetic masked face', )
     arg_parser.add_argument('--output', action='store', type=str, default="./")
+    arg_parser.add_argument('--base_folder', action='store', type=str)
 
     args = arg_parser.parse_args()
 
-    regenerate_results(args.output)
+    regenerate_results(args.output, args.base_folder)

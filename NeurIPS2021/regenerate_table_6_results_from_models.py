@@ -15,7 +15,7 @@ def create_folder(folder_path):
         os.mkdir(folder_path)
 
 
-def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompetition\\dataset\\evaluation_datasets\\"):
+def regenerate_results(output_path, base_folder):
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
     result_types = ["EER", "FNMR-100"]
@@ -104,7 +104,8 @@ if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(prog="Convert face to synthetic masked face",
                                          description='Convert face to synthetic masked face', )
     arg_parser.add_argument('--output', action='store', type=str, default="./")
+    arg_parser.add_argument('--base_folder', action='store', type=str)
 
     args = arg_parser.parse_args()
 
-    regenerate_results(args.output)
+    regenerate_results(args.output, args.base_folder)
