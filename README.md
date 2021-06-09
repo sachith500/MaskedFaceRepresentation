@@ -7,7 +7,7 @@ Masked face recognition focusses on identifying people using their facial featur
 
 ## Features
 - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
-- Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
+- [NeurIPS2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
     - Regenerate benchmark 1 results from the models
     - Regenerate benchmark 2 results from scores files
     - Regenerate benchmark 2 results from the models
@@ -15,7 +15,7 @@ Masked face recognition focusses on identifying people using their facial featur
 - Apply synthetic masks to a folder of images
 
 ## Download the Benchmark Datasets
-| Dataset Name | Website |Instructions|URL|
+| Dataset Name | Website |Instructions|Download URL|
 | ------ | ------ |------|------|
 | celeba | [Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) |Follow downloading instructions|https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg|
 | fei_face_frontal | [FEI Face Database](https://fei.edu.br/~cet/facedatabase.html) |Download both folders and merge into fei_face_frontal folder |https://fei.edu.br/~cet/frontalimages_manuallyaligned_part1.zip https://fei.edu.br/~cet/frontalimages_manuallyaligned_part2.zip |
