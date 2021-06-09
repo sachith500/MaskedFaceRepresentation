@@ -8,7 +8,7 @@ from tqdm import tqdm
 from utils.masked_face_creator import MaskedFaceCreator
 
 
-class GeorgiaTechMaskedFaceDatasetCreator:
+class LFWMaskedFaceDatasetCreator:
     def __init__(self, dataset_path, new_dataset_folder_path, mask_type="a"):
         self.dataset_path = dataset_path
         self.new_dataset_folder_path = new_dataset_folder_path

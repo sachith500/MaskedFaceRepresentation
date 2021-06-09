@@ -1,4 +1,3 @@
-import argparse
 import os
 import random
 import shutil
@@ -7,7 +6,7 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-from datasets_util.facemask_creator import MaskedFaceCreator
+from utils.masked_face_creator import MaskedFaceCreator
 
 
 class YoutubeMaskedFaceDatasetCreator:
@@ -16,7 +15,7 @@ class YoutubeMaskedFaceDatasetCreator:
         self.new_dataset_folder_path = new_dataset_folder_path
         self.mask_type = mask_type
         self.mask_color = (255, 255, 255)
-        self.masked_face_creator = MaskedFaceCreator('../assets/shape_predictor_68_face_landmarks.dat')
+        self.masked_face_creator = MaskedFaceCreator('./assets/shape_predictor_68_face_landmarks.dat')
         self.no_of_images_from_video = 5
 
     def generate(self):
@@ -50,8 +49,8 @@ class YoutubeMaskedFaceDatasetCreator:
 
                     image_with_mask = self.masked_face_creator.simulateMask(np.array(image, dtype=np.uint8),
                                                                             mask_type=self.mask_type,
-                                                      color=self.mask_color,
-                                                      draw_landmarks=False)
+                                                                            color=self.mask_color,
+                                                                            draw_landmarks=False)
                     if image_with_mask is None:
                         continue
                     cv2.imwrite(new_masked_file_path, image_with_mask)
@@ -59,13 +58,3 @@ class YoutubeMaskedFaceDatasetCreator:
                     mask_images_count += 1
                     if mask_images_count > self.no_of_images_from_video:
                         break
-
-
-if __name__ == "__main__":
-    arg_parser = argparse.ArgumentParser(prog="Youtube faces ",
-                                         description='Verify the similarity of the evaluation files.', )
-    arg_parser.add_argument("--dataset_folder", type=str, required=True)
-    arg_parser.add_argument("--new_database_folder", type=str, required=True)
-    args = arg_parser.parse_args()
-
-    generate_front_align_dataset(args.dataset_folder, args.new_dataset_folder)

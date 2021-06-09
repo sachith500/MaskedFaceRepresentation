@@ -5,80 +5,85 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-from utils.facemask import FaceMasked
+from utils.masked_face_creator import MaskedFaceCreator
 
 
-def generate_front_align_dataset(dataset_path, new_dataset_folder_path):
-    dl = FaceMasked('../assets/shape_predictor_68_face_landmarks.dat')
-    if not os.path.isdir(new_dataset_folder_path):
-        os.mkdir(new_dataset_folder_path)
-    for file in tqdm(os.listdir(dataset_folder)):
-        person = file[:-5]
+class FeiFaceFrontAlignMaskedFaceDatasetCreator:
+    def __init__(self, dataset_path, new_dataset_folder_path, mask_type="a"):
+        self.dataset_path = dataset_path
+        self.new_dataset_folder_path = new_dataset_folder_path
+        self.mask_type = mask_type
+        self.mask_color = (255, 255, 255)
+        self.masked_face_creator = MaskedFaceCreator('./assets/shape_predictor_68_face_landmarks.dat')
+        self.selected_face_types = ['05', '06', '11', '12', '13', '14']
 
-        celebrity_folder = new_dataset_folder_path + f"\\{person}"
-        if not os.path.isdir(celebrity_folder):
-            os.mkdir(celebrity_folder)
+    def generate(self, ):
 
-        src_path = f"{dataset_path}\\{file}"
-        new_file_path = f"{celebrity_folder}\\{file}"
-        new_masked_file_path = f"{celebrity_folder}\\masked_{file}"
-        #
-        if os.path.isfile(src_path):
-            shutil.copy(src_path, new_file_path)
+        if not os.path.isdir(self.new_dataset_folder_path):
+            os.mkdir(self.new_dataset_folder_path)
+        for file in tqdm(os.listdir(self.dataset_path)):
+            person = file[:-5]
 
-        image = cv2.imread(src_path)
+            celebrity_folder = self.new_dataset_folder_path + f"\\{person}"
+            if not os.path.isdir(celebrity_folder):
+                os.mkdir(celebrity_folder)
 
-        image_with_mask = dl.simulateMask(np.array(image, dtype=np.uint8), mask_type="a", color=(255, 255, 255),
-                                          draw_landmarks=False)
-        if image_with_mask is None:
-            continue
-        cv2.imwrite(new_masked_file_path, image_with_mask)
+            src_path = f"{self.dataset_path}\\{file}"
+            new_file_path = f"{celebrity_folder}\\{file}"
+            new_masked_file_path = f"{celebrity_folder}\\masked_{file}"
+            #
+            if os.path.isfile(src_path):
+                shutil.copy(src_path, new_file_path)
 
+            image = cv2.imread(src_path)
 
-def generate_original_image_dataset(dataset_path, new_dataset_folder_path):
-    dl = FaceMasked('../assets/shape_predictor_68_face_landmarks.dat')
-    selected_face_types = ['05', '06', '11', '12', '13', '14']
-    if not os.path.isdir(new_dataset_folder_path):
-        os.mkdir(new_dataset_folder_path)
-    for file in tqdm(os.listdir(dataset_folder)):
-        name_components = file.split("-")
-        person = name_components[0]
-        type = name_components[1][:-4]
-
-        if not type in selected_face_types:
-            continue
+            image_with_mask = self.masked_face_creator.simulateMask(np.array(image, dtype=np.uint8),
+                                                                    mask_type=self.mask_type,
+                                                                    color=self.mask_color,
+                                                                    draw_landmarks=False)
+            if image_with_mask is None:
+                continue
+            cv2.imwrite(new_masked_file_path, image_with_mask)
 
 
-        celebrity_folder = new_dataset_folder_path + f"\\{person}"
-        if not os.path.isdir(celebrity_folder):
-            os.mkdir(celebrity_folder)
+class FeiFaceOriginalMaskedFaceDatasetCreator:
+    def __init__(self, dataset_path, new_dataset_folder_path, mask_type="a"):
+        self.dataset_path = dataset_path
+        self.new_dataset_folder_path = new_dataset_folder_path
+        self.mask_type = mask_type
+        self.mask_color = (255, 255, 255)
+        self.masked_face_creator = MaskedFaceCreator('./assets/shape_predictor_68_face_landmarks.dat')
+        self.selected_face_types = ['05', '06', '11', '12', '13', '14']
 
-        src_path = f"{dataset_path}\\{file}"
-        new_file_path = f"{celebrity_folder}\\{file}"
-        new_masked_file_path = f"{celebrity_folder}\\masked_{file}"
-        #
-        if os.path.isfile(src_path):
-            shutil.copy(src_path, new_file_path)
+    def generate(self):
 
-        image = cv2.imread(src_path)
+        if not os.path.isdir(self.new_dataset_folder_path):
+            os.mkdir(self.new_dataset_folder_path)
+        for file in tqdm(os.listdir(self.dataset_path)):
+            name_components = file.split("-")
+            person = name_components[0]
+            type = name_components[1][:-4]
 
-        image_with_mask = dl.simulateMask(np.array(image, dtype=np.uint8), mask_type="a", color=(255, 255, 255),
-                                          draw_landmarks=False)
-        if image_with_mask is None:
-            continue
-        cv2.imwrite(new_masked_file_path, image_with_mask)
+            if not type in self.selected_face_types:
+                continue
 
-def get_total_image_count():
-    dataset_path = "D:\\MaskedFaceRecognitionCompetition\\dataset\\evaluation_datasets\\feifei_front_align"
-    total_images = 0
-    for folder in tqdm(os.listdir(dataset_path)):
-        folder_path = f"{dataset_path}\\{folder}"
-        files = [f for f in os.listdir(folder_path) if os.path.isfile(f"{folder_path}\\{f}")]
-        total_images += len(files)
+            celebrity_folder = self.new_dataset_folder_path + f"\\{person}"
+            if not os.path.isdir(celebrity_folder):
+                os.mkdir(celebrity_folder)
 
-    print(total_images)
-if __name__ == "__main__":
-    # dataset_folder = "D:\MaskedFaceRecognitionCompetition\dataset\evaluation_datasets\\fei_face_database\\originalimages"
-    # new_dataset_folder = "D:\MaskedFaceRecognitionCompetition\dataset\evaluation_datasets\\fei_face_database\\original_images_category"
-    # generate_original_image_dataset(dataset_folder, new_dataset_folder)
-    get_total_image_count()
+            src_path = f"{self.dataset_path}\\{file}"
+            new_file_path = f"{celebrity_folder}\\{file}"
+            new_masked_file_path = f"{celebrity_folder}\\masked_{file}"
+            #
+            if os.path.isfile(src_path):
+                shutil.copy(src_path, new_file_path)
+
+            image = cv2.imread(src_path)
+
+            image_with_mask = self.masked_face_creator.simulateMask(np.array(image, dtype=np.uint8),
+                                                                    mask_type=self.mask_type,
+                                                                    color=self.mask_color,
+                                                                    draw_landmarks=False)
+            if image_with_mask is None:
+                continue
+            cv2.imwrite(new_masked_file_path, image_with_mask)

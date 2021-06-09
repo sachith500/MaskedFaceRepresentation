@@ -20,10 +20,9 @@ def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompet
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
 
-    # experiment_models = ["VGG19", "MobileNet", "SENET", "VGG16", "EX1.1"]
-    experiment_models = ["EX1.1"]
+    experiment_models = ["VGG19", "MobileNet", "SENET", "VGG16", "EX1.1"]
     model_type = ["pytorch_sigmoid"]
-    # model_type = ["tensorflow_vgg19", "tensorflow_mobilenet", "tensorflow_senet", "tensorflow_vgg16", "pytorch_sigmoid"]
+    model_type = ["tensorflow_vgg19", "tensorflow_mobilenet", "tensorflow_senet", "tensorflow_vgg16", "pytorch_sigmoid"]
 
     trained_models = {
         "VGG19": "./models/benchmark_1/vgg19.h5", "MobileNet": "./models/benchmark_1/mobilenet.h5",
