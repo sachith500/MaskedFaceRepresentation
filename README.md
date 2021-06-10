@@ -205,9 +205,6 @@ We run the multi dataset-trained models through a larger test-set from each data
 
 MIT
 
-
-## Features
-
 ## Citations
 
 If you use the facial recognition work, please cite:
