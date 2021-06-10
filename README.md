@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-Masked face recognition focusses on identifying people using their facial features while they are wearing masks. We introduce benchmarks on face verification based on masked face images. 
+Masked face recognition focuses on identifying people using their facial features while they are wearing masks. We introduce benchmarks on face verification based on masked face images. 
 
 ## Features
 - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
