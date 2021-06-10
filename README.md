@@ -226,10 +226,9 @@ TODO: add link to final publication.
 
 ## Acknowledgements
 
-This project is supported by National Health and Medical Research Grant GA80134. 
-This research was undertaken using the LIEF HPC-GPGPU Facility hosted at the University of Melbourne.
-This Facility was established with the assistance of LIEF Grant LE170100200. 
-This research was undertaken using University of Melbourne Research Computing facilities established by the Petascale Campus Initiative.
+-This project is supported by National Health and Medical Research Grant GA80134. 
+-This research was undertaken using the LIEF HPC-GPGPU Facility hosted at the University of Melbourne. This Facility was established with the assistance of LIEF Grant LE170100200. 
+-This research was undertaken using University of Melbourne Research Computing facilities established by the Petascale Campus Initiative.
 
 
 
