@@ -5,6 +5,15 @@
 
 Masked face recognition focuses on identifying people using their facial features while they are wearing masks. We introduce benchmarks on face verification based on masked face images. 
 
+## Data and Ethics
+## Data and Ethics
+All models, code and research presented in this repo is provided for reproducibility purposes. Our work is intended for use for helping security-related applications while maintaining COVID-safe protocols (keep your mask on at airport security to maintain a lower chance of spreading COVID) and not for invading individual privacy.
+We invite researchers to consider the broader implications of perfecting state of the art result work in areas such as masked identification. We believe everyone has the right to their privacy and researchers should consider broader implications of their work before open-sourcing very accurate models in areas with potential for misuse.
+
+The accuracy and performance of models released in this repo should be sufficient for health-related applications (such as safety protocols) but would not (we hope) be usable for tracking an individuals' movements.
+
+If you are interested in using this work for COVID-Safety applications we are happy to consult on a pro bono basis.
+
 ## Features
 - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
 - Apply synthetic mask to a face image
