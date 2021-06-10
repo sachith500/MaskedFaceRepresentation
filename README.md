@@ -92,8 +92,8 @@ Our network architecture (Siamese Network Architecture)
 |fei_face_original|0.363|0.356|0.49|0.304|0.031|
 |georgia_tech|0.323|0.416|0.483|0.431|0.097|
 |sof_original|0.476|0.389|0.415|0.365|0.169|
-|fei_face_frontal|0.357|0.171|0.424|0.1430|
-|youtube_faces0.424|0.394|0.468|0.385|0.115|
+|fei_face_frontal|0.357|0.171|0.424|0.143|0|
+|youtube_faces|0.424|0.394|0.468|0.385|0.115|
 |lfw|0.361|0.449|0.469|0.372|0.142|
 |in_house_dataset|0.288|0.244|0.425|0.288|0.038|
 
