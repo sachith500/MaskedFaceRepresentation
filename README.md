@@ -7,22 +7,22 @@ Masked face recognition focuses on identifying people using their facial feature
 
 ## Features
 - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
+- Apply synthetic mask to a face image
+- Apply synthetic masks to a folder of images
 - [NeurIPS2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
     - Regenerate benchmark 1 results from the models
     - Regenerate benchmark 2 results from scores files
     - Regenerate benchmark 2 results from the models
-- Apply synthetic mask to a face image
-- Apply synthetic masks to a folder of images
 
 ## Download the Benchmark Datasets
 | Dataset Name | Website |Instructions|Download URL|
 | ------ | ------ |------|------|
-| celeba | [Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) |Follow downloading instructions|https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg|
+| celeba | [Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) |Follow the downloading instructions|https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg|
 | fei_face_frontal | [FEI Face Database](https://fei.edu.br/~cet/facedatabase.html) |Download both folders and merge into fei_face_frontal folder |https://fei.edu.br/~cet/frontalimages_manuallyaligned_part1.zip https://fei.edu.br/~cet/frontalimages_manuallyaligned_part2.zip |
 | fei_face_original |[FEI Face Database](https://fei.edu.br/~cet/facedatabase.html)  |Download and merge all the folders into fei_face_original folder|https://fei.edu.br/~cet/originalimages_part1.zip https://fei.edu.br/~cet/originalimages_part2.zip https://fei.edu.br/~cet/originalimages_part3.zip https://fei.edu.br/~cet/originalimages_part4.zip|
 | georgia_tech | [Georgia Tech face database](http://www.anefian.com/research/face_reco.htm) |Download the zip and unzip into georgia_tech|http://www.anefian.com/research/gt_db.zip|
 | sof_original | [Specs on Faces (SoF) Dataset](https://sites.google.com/view/sof-dataset) |Download original images|https://drive.google.com/file/d/1ufydwhMYtOhxgQuHs9SjERnkX0fXxorO/|
-| youtube_faces | [YouTube Faces DB](https://www.cs.tau.ac.il/~wolf/ytfaces/) |Follow downloading instructions|https://www.cs.tau.ac.il/~wolf/ytfaces/ |
+| youtube_faces | [YouTube Faces DB](https://www.cs.tau.ac.il/~wolf/ytfaces/) |Follow the downloading instructions|https://www.cs.tau.ac.il/~wolf/ytfaces/ |
 | lfw | [Labeled Faces in the Wild](http://vis-www.cs.umass.edu/lfw/) |Download all images aligned with deep funnelling|http://vis-www.cs.umass.edu/lfw/lfw-funneled.tgz|
 
 ### Downloading instructions
@@ -142,12 +142,8 @@ cd NeurIPS2021
 python regenerate_table_6_results_from_models.py --base_folder ../base_folder
 ```
 
-### FAR/FRR curve, for all datasets using CP1 Model and different distances
-The 512 softmax layer feeds into a single linear layer during training. This means the output range is (-inf, inf). However, similarity needs to be between 0-1 for inference (definition of similarity for this problem). Our validation metric uses a sorting based approach which is dependent only on the order of the 20 pairs (precision checks only the highest similarity pair and whether it is the authentic pair). Therefore, this has no impact during training. However, during inference it is necessary to scale to [0,1]. This is done by a simple sigmoid function of the output to convert from (-inf, inf) to [0,1]. This has no impact whatsoever on training. We do this as dataset-wide min-max scaling is not feasible. In particular, it prevents use in real-life scenarios where the statistics of the overall dataset (including min and max) would keep changing as more data is collected for inference. However as shown in the image above this has an impact on the performance of the model. To mitigate this, we visualized the performance of the different layers as above and picked the 2048 output due to its superior performance on correctly identifying imposters (which is the main consideration in authentication as false negatives can be retested, whereas false positives have considerably problematic implications). However, during the model selection workflow in experiment 1, we used the sigmoid based output and presented those results in the paper.
-
-![](NeurIPS2021/graphs/FAR_FRR_all.png?raw=true)
-
 ### FPR/TPR curve, for all datasets using CP1 model
+The relative difficulty of different datasets can be visualized based on CP1 model.
 ![](NeurIPS2021/graphs/FPR_TPR_all.png?raw=true)
 
 ### Results
