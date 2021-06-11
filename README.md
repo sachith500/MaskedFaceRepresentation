@@ -218,7 +218,14 @@ MIT
 
 If you use the facial recognition work, please cite:
 
-TODO: add link to final publication on recognition.
+@misc{seneviratne2021multidataset,
+      title={Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning}, 
+      author={Sachith Seneviratne and Nuran Kasthuriaarachchi and Sanka Rasnayaka},
+      year={2021},
+      eprint={2106.05596},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
 
 If you use the race, sex or age prediction work, please cite:
 
