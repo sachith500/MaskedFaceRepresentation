@@ -78,7 +78,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 ```
 
 ## Summary of the datasets
-|Dataset |Unmasked Identities/ ImagesMasked |Identities/ Images|
+|Dataset |Unmasked Identities/ Images |Masked Identities/ Images|
 | ------ | ------ | ------ |
 |CelebA |10177/202,599|10174/197,499|
 |FEI Face |200/1,177|200/1,177|
@@ -87,7 +87,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 |YouTube Faces |1595/20,252|1589/19,960|
 |LFW |5749/13,167|5718/13,138|
 
-## NeurlIPS2021 Experiments
+## NeurIPS2021 Experiments
 
 Our network architecture (Siamese Network Architecture)
 ![](NeurIPS2021/graphs/masknn.jpg?raw=true)
