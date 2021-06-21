@@ -227,9 +227,6 @@ If you use the facial recognition work, please cite:
       primaryClass={cs.CV}
 }
 
-If you use the race, sex or age prediction work, please cite:
-
-TODO: add link to final publication.
 
 ## Acknowledgements
 
