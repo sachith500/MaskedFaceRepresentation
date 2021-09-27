@@ -90,7 +90,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 ## DICTA2021 Experiments
 
 Our network architecture (Siamese Network Architecture)
-![](NeurIPS2021/graphs/masknn.jpg?raw=true)
+![](DICTA2021/graphs/masknn.jpg?raw=true)
 
 ### Benchmark 1
 
@@ -109,7 +109,7 @@ Our network architecture (Siamese Network Architecture)
 #### Regenerate benchmark 1 results
 
 ```sh
-cd Dicta2021
+cd DICTA2021
 python regenerate_benchmark_1_from_models.py --base_folder ../base_folder
 ```
 ### Benchmark 2
@@ -153,7 +153,7 @@ python regenerate_table_6_results_from_models.py --base_folder ../base_folder
 
 ### FPR/TPR curve, for all datasets using CP1 model
 The relative difficulty of different datasets can be visualized based on CP1 model.
-![](NeurIPS2021/graphs/FPR_TPR_all.png?raw=true)
+![](DICTA2021/graphs/FPR_TPR_all.png?raw=true)
 
 ### Results
 
