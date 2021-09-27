@@ -18,7 +18,7 @@ If you are interested in using this work for COVID-Safety applications we are ha
 - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
 - Apply synthetic mask to a face image
 - Apply synthetic masks to a folder of images
-- [NeurIPS2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
+- [DICTA2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
     - Regenerate benchmark 1 results from the models
     - Regenerate benchmark 2 results from scores files
     - Regenerate benchmark 2 results from the models
@@ -87,7 +87,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 |YouTube Faces |1595/20,252|1589/19,960|
 |LFW |5749/13,167|5718/13,138|
 
-## NeurIPS2021 Experiments
+## DICTA2021 Experiments
 
 Our network architecture (Siamese Network Architecture)
 ![](NeurIPS2021/graphs/masknn.jpg?raw=true)
@@ -109,7 +109,7 @@ Our network architecture (Siamese Network Architecture)
 #### Regenerate benchmark 1 results
 
 ```sh
-cd NeurIPS2021
+cd Dicta2021
 python regenerate_benchmark_1_from_models.py --base_folder ../base_folder
 ```
 ### Benchmark 2
@@ -128,7 +128,7 @@ python regenerate_benchmark_1_from_models.py --base_folder ../base_folder
 #### Regenerate benchmark 2 results
 
 ```sh
-cd NeurIPS2021
+cd DICTA2021
 python regenerate_experiment_2_results_from_models.py --base_folder ../base_folder
 ```
 ### Overall benchmark:  results of Exp1(trained on CelebA for 1015k steps) and Ensemble(trained on 4 datasets) on the synthetic unmasked-masked datasets generated
@@ -147,7 +147,7 @@ python regenerate_experiment_2_results_from_models.py --base_folder ../base_fold
 #### Regenerate overall benchmark
 
 ```sh
-cd NeurIPS2021
+cd DICTA2021
 python regenerate_table_6_results_from_models.py --base_folder ../base_folder
 ```
 
