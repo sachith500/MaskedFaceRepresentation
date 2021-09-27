@@ -16,7 +16,7 @@ def create_folder(folder_path):
         os.mkdir(folder_path)
 
 
-def regenerate_results(output_path, base_folder="D:\\MaskedFaceRecognitionCompetition\\dataset\\evaluation_datasets\\"):
+def regenerate_results(output_path, base_folder=".\\evaluation_datasets\\"):
     datasets = ["fei_face_original", "georgia_tech", "sof_original", "fei_face_frontal", "youtube_faces", "lfw",
                 "in_house_dataset"]
 
