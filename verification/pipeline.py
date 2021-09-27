@@ -23,7 +23,7 @@ class Pipeline:
         self.dataset_base_folder = dataset_base_folder
         self.bbox_dict = dict()
         self.facial_key_points_dict = dict()
-        if os.path.isfile(landmarks_file):
+        if landmarks_file is not None and os.path.isfile(landmarks_file):
             with open(landmarks_file, 'r', newline='') as file:
                 lines = file.readlines()
                 for line in lines:
@@ -33,7 +33,7 @@ class Pipeline:
 
         else:
             print(f"Landmark file is not accessible. Please check the path {landmarks_file}.")
-            exit(0)
+            # exit(0)
         self.siamese_model = None
         self.output_path = output_path
 
@@ -123,13 +123,14 @@ class Pipeline:
     def __get_processed_inference_images(self, image_path):
         images = []
         original_image = self.open_image(image_path)
-
-        face_bbox = self.bbox_dict.get(image_path)
-        if face_bbox is not None:
-            for ratio in [0.6]:
-                cropped_image = self.__crop_image(original_image, face_bbox[0], face_bbox[1], face_bbox[2],
-                                                  face_bbox[3], ratio=ratio)
-                images.append(cropped_image)
+        resized_image = self.scale_and_resize_image(original_image)
+        images.append(resized_image)
+        # face_bbox = self.bbox_dict.get(image_path)
+        # if face_bbox is not None:
+        #     for ratio in [0.6]:
+        #         cropped_image = self.__crop_image(original_image, face_bbox[0], face_bbox[1], face_bbox[2],
+        #                                           face_bbox[3], ratio=ratio)
+        #         images.append(cropped_image)
 
         return np.array(images)
 
@@ -185,7 +186,7 @@ class Pipeline:
         return file_name, bbox, facial_key_points
 
     def __get_evaluation_line_details(self, line):
-        reference, probe, label_reference, label_probe = line.split(" ")
+        reference, probe, label_reference, label_probe,_ = line.split("::")
 
         return reference.strip(), probe.strip(), label_reference.strip(), label_probe.strip()
 
