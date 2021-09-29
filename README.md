@@ -261,7 +261,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 | ------ | ------ | ------ |
 |UTKFace |24,107|23,004|
 
-Confusion Matrix for Age classification prediction
+#### Confusion Matrix for Age classification prediction
 
 |Age group |Age range |
 | ------ | ------ | 
@@ -275,15 +275,15 @@ Confusion Matrix for Age classification prediction
 
 ![Confusion matrix for age classification](AJCAI2021/data/cf-age.png)
 
-Confusion Matrix for race prediction
+####  Confusion Matrix for race prediction
 
 ![](AJCAI2021/data/cf-race.png?raw=true)
 
-Confusion Matrix for sex prediction
+#### Confusion Matrix for sex prediction
 
 ![](AJCAI2021/data/cf-sex.png?raw=true)
 
-Overall confusion matrices
+#### Overall confusion matrices
 
 ![](AJCAI2021/data/cf-all.png?raw=true)
 
