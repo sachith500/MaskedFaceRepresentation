@@ -261,7 +261,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 | ------ | ------ | ------ |
 |UTKFace |24,107|23,004|
 
-#### Overall prediction comparison with confusion matrices
+#### Age buckets used for classification
 
 |Age group |Age range |
 | ------ | ------ | 
@@ -272,6 +272,8 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 |Adult |31-45 years|
 |MiddleAged |46-60 years|
 |Senior |61 and above years|
+
+#### Overall prediction comparison with confusion matrices
 
 ![](AJCAI2021/data/cf-all.png?raw=true)
 
