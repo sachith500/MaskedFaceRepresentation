@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use the repository for masked face identification, please use the following cite."
+authors:
+  - family-names: Seneviratne
+    given-names: Sachith
+    orcid: https://orcid.org/0000-0001-9094-2736
+  - family-names: Kasthuriarachchi
+    given-names: Nuran
+    orcid: https://orcid.org/0000-0002-3481-6687
+  - family-names: Rasnayaka
+    given-names: Sanka
+    orcid: https://orcid.org/0000-0002-5186-1957
+title: "Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning"
+version: 2.0.4
+date-released: 2021-09-28

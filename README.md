@@ -15,15 +15,27 @@ The accuracy and performance of models released in this repo should be sufficien
 If you are interested in using this work for COVID-Safety applications we are happy to consult on a pro bono basis.
 
 ## Features
-- Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
-- Apply synthetic mask to a face image
-- Apply synthetic masks to a folder of images
-- [DICTA2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
-    - Regenerate benchmark 1 results from the models
-    - Regenerate benchmark 2 results from scores files
-    - Regenerate benchmark 2 results from the models
+- Masked face identification
+    - Generate Synthetic masks to CelebA, Fei Face, georgia_tech, SoF, YoutubeFaces and LFW datasets 
+    - Apply synthetic mask to a face image
+    - Apply synthetic masks to a folder of images
+    - [DICTA2021] Regenerate results in the paper : Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning
+        - Regenerate benchmark 1 results from the models
+        - Regenerate benchmark 2 results from scores files
+        - Regenerate benchmark 2 results from the models
+- Masked face privacy
+    - Generate Synthetic masks to UTKFace dataset
+    - Split the dataset with proper distribution among training, validation and test datasets
+    - [AJCAI2021] Regenerate results in the paper : Does a Face Mask Protect my Privacy?: DeepLearning to Predict Protected Attributes fromMasked Face Images
+        - Regenerate the overall accuracy for models
+        - Regenerate the results of masked and unmasked faces
 
-## Download the Benchmark Datasets
+
+## Masked face identification
+
+Conference Venue: DICTA2021
+
+### Download the benchmark datasets
 | Dataset Name | Website |Instructions|Download URL|
 | ------ | ------ |------|------|
 | celeba | [Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) |Follow the downloading instructions|https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg|
@@ -52,7 +64,7 @@ If you are interested in using this work for COVID-Safety applications we are ha
 5. Unzip under youtube_faces
 
 ### Folder Structure after downloading the datasets
-base_folder : Base folder for all the databases
+base_folder : Base folder for all the datasets
 - celeba
     - images
     - identity_CelebA.txt
@@ -62,7 +74,9 @@ base_folder : Base folder for all the databases
 - lfw
 - sof_original
 - youtube_faces
-## Generate Synthetic masks to benchmark datasets
+
+
+### Generate Synthetic masks to benchmark datasets
 
 
 Install python 3.6. Then run the following command to install the requirements.
@@ -77,7 +91,7 @@ To apply synthetic masks on the datasets
 python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_folder ../benchmark_dataset
 ```
 
-## Summary of the datasets
+### Summary of the datasets for DICTA2021
 |Dataset |Unmasked Identities/ Images |Masked Identities/ Images|
 | ------ | ------ | ------ |
 |CelebA |10177/202,599|10174/197,499|
@@ -87,7 +101,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 |YouTube Faces |1595/20,252|1589/19,960|
 |LFW |5749/13,167|5718/13,138|
 
-## DICTA2021 Experiments
+### Experiments
 
 Our network architecture (Siamese Network Architecture)
 ![](DICTA2021/graphs/masknn.jpg?raw=true)
@@ -208,15 +222,117 @@ We run the multi dataset-trained models through a larger test-set from each data
 |lfw|0.17788|0.100892|0.089864|0.09087|0.109926|0.092878|0.08387|
 |in_house_dataset|0.075|0.03125|0.0125|0.0125|0.0125|0.01875|0.0125|
 
+## Masked face privacy
 
+Conference Venue: AJCAI2021
 
-## License
+### Download the benchmark datasets
+
+| Dataset Name | Website |Instructions|Download URL|
+| ------ | ------ |------|------|
+| UTKFace | [UTKFace Dataset](https://susanqq.github.io/UTKFace/) |Follow the downloading instructions|https://drive.google.com/file/d/0BxYys69jI14kb2o4ajJwQ3FOUm8/view?usp=sharing&resourcekey=0-wviJQhRUIJUlUjFc86H0kg https://drive.google.com/file/d/0BxYys69jI14kNEt1SnNJN1Z2WWc/view?usp=sharing&resourcekey=0-iUnGnz7QyDHeZOYdHcMm4A https://drive.google.com/file/d/0BxYys69jI14kVkVTZHZHa21zUXM/view?usp=sharing&resourcekey=0-AzmPdtIpMfLjjRox3dEs-g|
+
+### Downloading instructions
+##### UTKFace
+1. Download the dataset using the given URLs.
+1. Download part1.tar.gz, part2.tar.gz and part3.tar.gz
+1. Unzip the files and get the images to UTKFace folder
+
+### Folder Structure after downloading the datasets
+base_folder : Base folder for the dataset (This is where you unzip and copy UTKFaces folder)
+- UTKFace
+
+### Generate Synthetic masks to benchmark datasets
+
+Install python 3.6. Then run the following command to install the requirements.
+
+```sh
+pip install -r requirements.txt
+```
+
+To apply synthetic masks on the datasets
+
+```sh
+python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_folder ../benchmark_dataset
+```
+
+### Summary of the datasets for AJCAI2021
+|Dataset |Unmasked Images |Masked Identities/ Images|
+| ------ | ------ | ------ |
+|UTKFace |24,107|23,004|
+
+Age distribution
+
+![](AJCAI2021/data/age_distribution.png?raw=true)
+
+|Age group |Age range |
+| ------ | ------ | 
+|Baby |0-3 years|
+|Child |4-12 years|
+|Teenagers |13-19 years|
+|Young |20-30 years|
+|Adult |31-45 years|
+|MiddleAged |46-60 years|
+|Senior |61 and above years|
+
+![](AJCAI2021/data/age_category_distribution.png?raw=true)
+
+Sex distribution
+
+![](AJCAI2021/data/sex_distribution.png?raw=true)
+
+Race distribution
+
+![](AJCAI2021/data/race_distribution.png?raw=true)
+
+### Overall accuracy for models
+
+#### Results
+| Method|Sex accuracy| Race accuracy |Age Accuracy ||
+| ------ | ------ | ------ | ------ |------ |
+| | | |MAE|RMSE|
+| Previous implementations | 0.9374 | - | - |- |
+| Our method with transforms | **0.9401** | **0.8220** | 6.2788 |8.4836 |
+| Our method without complex transforms | 0.9361 | 0.8134 | **6.2168** |**8.3372**|
+
+#### Regenerate attribute prediction accuracy results with transforms
+
+```sh
+cd AJCAI2021
+python regenerate_results_with_transforms.py --base_folder ../base_folder
+```
+
+#### Regenerate attribute prediction accuracy results without complex transforms
+
+```sh
+cd AJCAI2021
+python regenerate_results_without_complex_transforms.py --base_folder ../base_folder
+```
+
+### Results for masked and no mask faces
+
+#### Results
+| |Unmasked face - SOTA| Masked Face (Random Split) |Masked Face (Uniform Split) |
+| ------ | ------ | ------ | ------ |
+|Sex|98.23%|94.01%|**94.65%**|
+|Race|91.23%|94.01%|**94.65%**|
+|Age (MAE) - Regression|5.44|**6.21**| - |
+|Age - Classification|70.1%|-|**67.94%**|
+
+#### Regenerate overall accuracy results
+
+```sh
+cd AJCAI2021
+python regenerate_overall_accuracy_results.py --base_folder ../base_folder
+```
+
+### License
 
 MIT
 
-## Citations
+## References
 
-If you use the facial recognition work, please cite:
+If you use the repository for masked face identification, please use the following cite:
 
 @misc{seneviratne2021multidataset,
       title={Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning}, 
@@ -227,6 +343,16 @@ If you use the facial recognition work, please cite:
       primaryClass={cs.CV}
 }
 
+If you use the repository for masked face privacy, please use the following cite:
+
+@misc{seneviratne2021multidataset,
+      title={Does a Face Mask Protect my Privacy?: DeepLearning to Predict Protected Attributes fromMasked Face Images}, 
+      author={Sachith Seneviratne and Nuran Kasthuriaarachchi and Sanka Rasnayaka and Danula Hettiarachchi and Ridwan Shariffdeen},
+      year={2021},
+      eprint={2106.05596},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
 
 ## Acknowledgements
 
