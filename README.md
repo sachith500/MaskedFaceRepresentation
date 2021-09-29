@@ -273,17 +273,15 @@ Confusion Matrix for Age classification prediction
 |MiddleAged |46-60 years|
 |Senior |61 and above years|
 
-![Confusion matrix for age classification][cf_age]{ width=50% height=50%} 
-
-[cf_age]: AJCAI2021/data/cf-age.png 
+![Confusion matrix for age classification](AJCAI2021/data/cf-age.png)
 
 Confusion Matrix for race prediction
 
-![](AJCAI2021/data/cf-race.png?raw=true){ width=50% height=50%} 
+![](AJCAI2021/data/cf-race.png?raw=true)
 
 Confusion Matrix for sex prediction
 
-![](AJCAI2021/data/cf-sex.png?raw=true){ width=50% height=50%} 
+![](AJCAI2021/data/cf-sex.png?raw=true)
 
 Overall confusion matrices
 
