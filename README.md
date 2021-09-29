@@ -261,9 +261,7 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 | ------ | ------ | ------ |
 |UTKFace |24,107|23,004|
 
-Age distribution
-
-![](AJCAI2021/data/age_distribution.png?raw=true)
+Confusion Matrix for Age classification prediction
 
 |Age group |Age range |
 | ------ | ------ | 
@@ -275,15 +273,21 @@ Age distribution
 |MiddleAged |46-60 years|
 |Senior |61 and above years|
 
-![](AJCAI2021/data/age_category_distribution.png?raw=true)
+![Confusion matrix for age classification][cf_age]{ width=50% height=50%} 
 
-Sex distribution
+[cf_age]: AJCAI2021/data/cf-age.png 
 
-![](AJCAI2021/data/sex_distribution.png?raw=true)
+Confusion Matrix for race prediction
 
-Race distribution
+![](AJCAI2021/data/cf-race.png?raw=true){ width=50% height=50%} 
 
-![](AJCAI2021/data/race_distribution.png?raw=true)
+Confusion Matrix for sex prediction
+
+![](AJCAI2021/data/cf-sex.png?raw=true){ width=50% height=50%} 
+
+Overall confusion matrices
+
+![](AJCAI2021/data/cf-all.png?raw=true)
 
 ### Overall accuracy for models
 
@@ -332,7 +336,7 @@ MIT
 
 ## References
 
-If you use the repository for masked face identification, please use the following cite:
+If you use the repository for masked face identification, please use the following citation:
 
 @misc{seneviratne2021multidataset,
       title={Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning}, 
@@ -343,7 +347,7 @@ If you use the repository for masked face identification, please use the followi
       primaryClass={cs.CV}
 }
 
-If you use the repository for masked face privacy, please use the following cite:
+If you use the repository for masked face privacy, please use the following citation:
 
 @misc{seneviratne2021multidataset,
       title={Does a Face Mask Protect my Privacy?: DeepLearning to Predict Protected Attributes fromMasked Face Images}, 
