@@ -341,7 +341,7 @@ If you use the repository for masked face privacy, please use the following cita
       title={Does a Face Mask Protect my Privacy?: DeepLearning to Predict Protected Attributes fromMasked Face Images}, 
       author={Sachith Seneviratne and Nuran Kasthuriaarachchi and Sanka Rasnayaka and Danula Hettiarachchi and Ridwan Shariffdeen},
       year={2021},
-      eprint={2106.05596},
+      eprint={},
       archivePrefix={arXiv},
       primaryClass={cs.CV}
 }
