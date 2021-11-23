@@ -238,3 +238,10 @@ outputs/*
 experiment_2_results.csv
 *.csv
 models/benchmark_1/senet.h5
+
+AJCAI2021/models/model_best_age.pth.tar
+AJCAI2021/models/model_best_age_class.pth.tar
+
+AJCAI2021/models/model_best_race.pth.tar
+AJCAI2021/models/model_best_sex.pth.tar
+AJCAI2021/models/predict_age_class.pth.tar
