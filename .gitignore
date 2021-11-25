@@ -245,3 +245,5 @@ AJCAI2021/models/model_best_age_class.pth.tar
 AJCAI2021/models/model_best_race.pth.tar
 AJCAI2021/models/model_best_sex.pth.tar
 AJCAI2021/models/predict_age_class.pth.tar
+
+!AJCAI2021/data/*.csv
