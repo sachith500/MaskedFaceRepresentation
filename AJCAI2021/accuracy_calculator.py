@@ -7,22 +7,20 @@ class MAECalculator:
 
     @staticmethod
     def calculate(output_results):
-        correct_total = 0
-        total_result = 0
-
         total_correct = 0
         total_correctsq = 0
-
+        total_result = 0
         for result in output_results:
-            correct = (abs(result[0] - result[1])).float().sum()
-            correct_sq = (abs(result[0] - result[1]) ** 2).float().sum()
+            correct = (abs(result[0] - result[1])).sum()
+            correct_sq = (abs(result[0] - result[1]) ** 2).sum()
 
             total_correct += correct
             total_correctsq += correct_sq
+            total_result += len(result[0])
 
-        print(correct_total, total_result)
-        print("MAE = " + str(correct_total / total_result))
-        print("RMSE = " + str((correct_total / total_result) ** 0.5))
+        print("MAE = " + str(total_correct / total_result))
+        print("RMSE = " + str((total_correctsq / total_result) ** 0.5))
+        return [["MAE", str(total_correct / total_result)], ["RMSE", str((total_correctsq / total_result) ** 0.5)]]
 
 
 class PercentageCalculator:
@@ -37,8 +35,11 @@ class PercentageCalculator:
         for result in output_results:
             result = np.array(result)
             total_result_count += len(result[0])
-            correct_count = (result[0] == result[1]).sum()
+            correct_count = np.sum(result[0] == result[1])
             total_correct_count += correct_count
 
         print("Accuracy = " + str(total_correct_count) + "/" + str(total_result_count))
         print(" ===  " + str(total_correct_count / total_result_count) + "  ===")
+
+        return [["Accuracy", str(100 * total_correct_count / total_result_count) + "%"],
+                ["Accuracy", str(total_correct_count / total_result_count)]]

@@ -17,7 +17,6 @@ class ClassificationNetwork(nn.Module):
         return self.model(inputs)
 
     def build_model(self, architecture, num_classes):
-        print(architecture)
         model = torchvision.models.__dict__[architecture](pretrained=False)
         model.fc = torch.nn.Linear(2048, num_classes)
         model.fc.weight.data.normal_(mean=0.0, std=0.01)
@@ -152,6 +151,7 @@ class RaceClassificationNN(ClassificationNetwork):
         output = output.to(self.device)
         out_labels = torch.argmax(output, dim=1)
         out_labels = out_labels.to('cpu')
+        out_labels = out_labels.detach().numpy()
 
         return out_labels
 

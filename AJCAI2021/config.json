@@ -2,18 +2,22 @@
   "dataset_path": "D:\\MaskedFaceRecognitionCompetition\\dataset\\UTKface_inthewild-20210331T075050Z-001\\UTKface_inthewild\\classification\\age_separate\\test",
   "models": {
     "age_regression": {
+      "dataset_path": "D:\\MaskedFaceRecognitionCompetition\\dataset\\UTKface_inthewild-20210331T075050Z-001\\UTKface_inthewild\\new_masked_dataset\\age\\testing",
       "model_path": "./models/model_best_age.pth.tar",
       "accuracy": "mae"
     },
     "age_classification": {
+      "dataset_path": "D:\\MaskedFaceRecognitionCompetition\\dataset\\UTKface_inthewild-20210331T075050Z-001\\UTKface_inthewild\\new_masked_dataset\\new_age\\test",
       "model_path": "./models/model_best_age_class.pth.tar",
       "accuracy": "percentage"
     },
     "sex": {
+      "dataset_path": "D:\\MaskedFaceRecognitionCompetition\\dataset\\UTKface_inthewild-20210331T075050Z-001\\UTKface_inthewild\\new_masked_dataset\\gender\\testing",
       "model_path": "./models/model_best_sex.pth.tar",
       "accuracy": "percentage"
     },
     "race": {
+      "dataset_path": "D:\\MaskedFaceRecognitionCompetition\\dataset\\UTKface_inthewild-20210331T075050Z-001\\UTKface_inthewild\\new_masked_dataset\\race\\testing",
       "model_path": "./models/model_best_race.pth.tar",
       "accuracy": "percentage"
     }

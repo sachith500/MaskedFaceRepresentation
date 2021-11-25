@@ -289,33 +289,30 @@ python generate_mask_to_datasets.py --base_folder ../base_folder --new_dataset_f
 
 #### Regenerate attribute prediction accuracy results with transforms
 
-```sh
-cd AJCAI2021
-python regenerate_results_with_transforms.py --base_folder ../base_folder
-```
-
-#### Regenerate attribute prediction accuracy results without complex transforms
-
-```sh
-cd AJCAI2021
-python regenerate_results_without_complex_transforms.py --base_folder ../base_folder
-```
-
 ### Results for masked and no mask faces
 
 #### Results
 | |Unmasked face - SOTA| Masked Face (Random Split) |Masked Face (Uniform Split) |
 | ------ | ------ | ------ | ------ |
 |Sex|98.23%|94.01%|**94.65%**|
-|Race|91.23%|94.01%|**94.65%**|
+|Race|91.23%|82.20%|**83.12%**|
 |Age (MAE) - Regression|5.44|**6.21**| - |
 |Age - Classification|70.1%|-|**67.94%**|
 
 #### Regenerate overall accuracy results
+build Sex, Race, Age and Age Classification datasets using UTKFaces. Then execute utkfaces_dataset.py. dataset is the original UTKFACE dataset folder. 
+output is the new masked dataset output directory.The types are age, race, sex and age_classification
+
+```sh
+cd AJCAI2021/dataset_util
+python utkfaces_dataset.py --dataset "./utkfacesdataset_path" --output "../new_masked_utk_face_dataset_path" --type age
+```
+Download the models to AJCAI2021/dataset_util folder. Then configure the config.json for each model related dataset path, model path and accuracy type (mae or percentage). 
+Then execute regenerate_overall_accuracy_results.py as follows.
 
 ```sh
 cd AJCAI2021
-python regenerate_overall_accuracy_results.py --base_folder ../base_folder
+python regenerate_overall_accuracy_results.py
 ```
 
 ### License

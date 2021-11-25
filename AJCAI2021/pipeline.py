@@ -19,8 +19,8 @@ class Pipeline:
             self.config = json.load(f)
 
         model_path = self.config["models"][type]["model_path"]
-        accuracy_type = self.config["models"][type]["model_path"]
-        dataset_folder = self.config["dataset_path"]
+        accuracy_type = self.config["models"][type]["accuracy"]
+        dataset_folder = self.config["models"][type]["dataset_path"]
 
         self.model = None
         self.data_loader = None
@@ -50,6 +50,8 @@ class Pipeline:
             self.model = SexClassificationNN(model_path)
         elif self.type == 'race':
             self.model = RaceClassificationNN(model_path)
+        elif self.type == 'age_regression':
+            self.model = AgeRegressionNN(model_path)
         else:
             self.model = AgeRegressionNN(model_path)
 
@@ -78,6 +80,9 @@ class Pipeline:
             output_labels = self.model(inputs)
             labels = labels.numpy()
             batch_output = [output_labels, labels]
+
             data_comparison.append(batch_output)
 
-        self.accuracy_calculator.calculate(data_comparison)
+        results = self.accuracy_calculator.calculate(data_comparison)
+
+        return results
