@@ -319,7 +319,7 @@ python regenerate_overall_accuracy_results.py
 
 MIT
 
-## References
+## Citation
 
 If you use the repository for masked face identification, please use the following citation:
 
