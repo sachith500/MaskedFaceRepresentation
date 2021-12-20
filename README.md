@@ -334,11 +334,11 @@ If you use the repository for masked face identification, please use the followi
 
 If you use the repository for masked face privacy, please use the following citation:
 
-@misc{seneviratne2021multidataset,
-      title={Does a Face Mask Protect my Privacy?: DeepLearning to Predict Protected Attributes fromMasked Face Images}, 
-      author={Sachith Seneviratne and Nuran Kasthuriaarachchi and Sanka Rasnayaka and Danula Hettiarachchi and Ridwan Shariffdeen},
+@misc{seneviratne2021does,
+      title={Does a Face Mask Protect my Privacy?: Deep Learning to Predict Protected Attributes from Masked Face Images}, 
+      author={Sachith Seneviratne and Nuran Kasthuriarachchi and Sanka Rasnayaka and Danula Hettiachchi and Ridwan Shariffdeen},
       year={2021},
-      eprint={},
+      eprint={2112.07879},
       archivePrefix={arXiv},
       primaryClass={cs.CV}
 }
