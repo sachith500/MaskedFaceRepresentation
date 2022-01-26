@@ -323,14 +323,15 @@ MIT
 
 If you use the repository for masked face identification, please use the following citation:
 
-@misc{seneviratne2021multidataset,
-      title={Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning}, 
-      author={Sachith Seneviratne and Nuran Kasthuriaarachchi and Sanka Rasnayaka},
-      year={2021},
-      eprint={2106.05596},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
+@INPROCEEDINGS{seneviratne2021multidataset,
+  author={Seneviratne, Sachith and Kasthuriarachchi, Nuran and Rasnayaka, Sanka},
+  booktitle={2021 Digital Image Computing: Techniques and Applications (DICTA)}, 
+  title={Multi-Dataset Benchmarks for Masked Identification using Contrastive Representation Learning}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={01-08},
+  doi={10.1109/DICTA52665.2021.9647194}}
 
 If you use the repository for masked face privacy, please use the following citation:
 
