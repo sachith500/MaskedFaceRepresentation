@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-Masked face recognition focuses on identifying people using their facial features while they are wearing masks. We introduce benchmarks on face verification based on masked face images. 
+Masked face recognition focuses on identifying people using their facial features while they are wearing masks. We introduce benchmarks on face verification and facial attribution prediction based on masked face images corresponding to multiple published articles.
 
 
 ## Data and Ethics
